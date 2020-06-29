@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+    <style>
+    html {text-align:center; background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:55px;
+        width:20%;
+        color:white;
+        cursor:pointer;
+    }
+
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+    <hr />
+    <head>
+    <title>Login Page</title>
+    </head>
+    <body>
+        <h2>Staff Login Page</h2>
+        <Form method="POST">
+        <br /> 
+        Username:
+        <br />
+        <input name="username" placeholder="Username""/> 
+        <br />
+        <br />
+        Password:
+        <br />
+        <input name="password" type="password" placeholder="Password"/>
+        <br />
+        <br />
+        <button id="button" type="submit" name="bt">Login</button>
+        </Form>
+    <! Below is the display functionality of flash messages !>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+                <p>{{ message }}</p><br>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+	
+    <hr />
+    </body>
+</html>

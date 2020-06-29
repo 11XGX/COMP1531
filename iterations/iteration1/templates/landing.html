@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+    <title>Hello page</title>
+    <style>
+    .butt {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:55px;
+        width:95%;
+        color:white;
+        cursor:pointer;
+    }
+
+    .butt:hover {
+       background-color: darkgray;
+       color:white;
+    }
+    </style>
+    </head>
+    <body>
+        <center>
+        <h1> Menu </h1>
+                <Form method="POST">
+        {% if is_authenticated %}
+            <button type="submit" class="butt" name="bt" value="view_questions"> View Questions </button><br>
+            <button type="submit" name="bt" class="butt" value="create_questions"> Create Questions </button><br>
+            <button type="submit" name="bt" class="butt" value="view_surveys"> View Surveys </button><br>
+            <button type="submit" name="bt" class="butt" value="create_surveys"> Create Surveys </button><br>
+        {% else %}
+            <p1> Request Denied </p1>
+            <button type="submit" name="bt" value="login"> Login </button><br>
+        {% endif %}
+                </Form>
+        <center>
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        </center>
+
+
+        </center>
+    </body>
+</html>

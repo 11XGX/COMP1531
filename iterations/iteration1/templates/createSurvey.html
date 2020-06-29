@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+    <title>Create a Survey</title>
+    </head>
+    <body>
+    <Form method="POST">
+        <button type="submit" name="bt" value="back">Back</button>
+    </Form>
+        <center>
+        <h1>Create a Survey</h1>
+        {% if is_authenticated %}
+            <Form method="POST">
+            <input name="name" placeholder="Survey Name"/> <br/>
+            <input name="description" placeholder="Survey Description"/><br/>
+            <label> Course: </label>
+            <select name="course" style="width:150px">
+                {% for course in courses %}
+                    <option value="{{ course }}">  {{ course }} </option>
+                {% endfor %}
+            </select><br>
+            <button type="submit" name="bt">Create</button><br>
+            </Form>
+        {% else %}
+            <p1> Request Denied </p1>
+        {% endif %}
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        </center>
+    </body>
+</html>

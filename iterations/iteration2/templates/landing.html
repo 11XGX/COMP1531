@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+    <style>
+    html {text-align:center; background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:55px;
+        width:20%;
+        color:white;
+        cursor:pointer;
+    }
+
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+	<hr />
+    <head>
+    <title>Hello Page</title>
+    </head>
+    <body>
+        <h1> Menu </h1>
+                <Form method="POST">
+        {% if "dashboard" in is_authenticated.keys() %}
+            {% if "createsurvey" in is_authenticated["dashboard"] %}
+            <button id="button" type="submit" name="bt" value="create_surveys"> Create Surveys </button><br>
+            {% endif %}
+            {% if "createquestions" in is_authenticated["dashboard"] %}
+            <button id="button" type="submit" name="bt" value="create_questions"> Create Questions </button><br>
+            {% endif %}
+            {% if "viewsurveys" in is_authenticated["dashboard"] %} 
+            <button id="button" type="submit" name="bt" value="view_surveys"> View Surveys </button><br>
+            {% endif %}
+            {% if "viewquestions" in is_authenticated["dashboard"] %}
+            <button id="button" type="submit" name="bt" value="view_questions"> View Questions </button><br>
+            {% endif %}
+            <button id="button" type="submit" name="bt" value="logout"> Logout </button><br>
+        {% else %}
+            <p1> Request Denied </p1>
+            <button id="button" type="submit" name="bt" value="login"> Login </button><br>
+        {% endif %}
+                </Form>
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <hr />
+    </body>
+</html>

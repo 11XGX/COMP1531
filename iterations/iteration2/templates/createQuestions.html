@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+   <style>
+   html {text-align:center; background-color:#DCDCDC}
+   body {background-color:#F5F5F5; font-family:arial}
+   #button {
+       border: 1px outset darkgray;
+       background-color: gray;
+       height:35px;
+       width:10%;
+       color:white;
+       cursor:pointer;
+   }
+   #button:hover {
+      background-color: darkgray;
+      color:white;
+   }
+   </style>
+   <hr />
+   <head>
+   <title>Create New Questions</title>
+   </head>
+   <body>
+   <Form method="POST">
+      <button id="button" style="float:left;" type="submit" name="bt" value="back">Back</button><br/>
+   </Form>
+      <h1>Create New Questions</h1>
+      {% if "createquestions" in is_authenticated.keys() %}
+
+      {% block content %} {% endblock %}
+
+      {% else %}
+      <p1> Request Denied </p1>
+      {% endif %}
+
+      <! Below is the display functionality of flash messages !>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+                <p>{{ message }}</p><br>
+            {% endfor %}
+            </ul>
+        {% endif %}
+      {% endwith %}
+    </body>
+    <hr />
+</html>

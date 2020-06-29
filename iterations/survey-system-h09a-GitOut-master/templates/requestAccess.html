@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+    <style>
+   html {background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:35px;
+        width:10%;
+        color:white;
+        cursor:pointer;
+    }
+
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+	<hr />
+    <head>
+    <title>Request Guest Access</title>
+    </head>
+    <Form method="POST">
+        <button id="button" style="float: left;" type="submit" name="bt" value="back">Back</button>
+    </Form>
+    <p align="right">
+        Username: {{ user.username }}  <br />  
+        Role: {{user.role}}            <br />    
+    </p> 
+<center>
+    <body>
+        <h1> Request Guest Access </h1>
+            <Form method="POST">
+            <input name="username" placeholder="Username" value = ""/><br/><br/>
+            <input name="password" placeholder="Password" value = ""/><br/><br/>
+            <select name="course" style="width:150px">
+                {% for i in range(0, courses|length) %}
+                    <option value="{{ i }}">  {{ courses[i].session }} </option>
+                {% endfor %}
+            </select><br/><br/>
+            <button id="button" type="submit" name="bt" value="register"> Register </button><br>
+   
+            </Form>
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <hr />
+
+</center>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype.html>
+<html>
+	<head>
+	<title>Index page </title>
+	</head>
+	<body>
+	    {% if not toSort %}
+		<h1> Bubblesort! </h1>
+		<Form method="POST">
+			<input name="numbers" placeholder="Enter your list of numbers..."/>
+			<button type="submit" name="bt">Bubblesort</button>
+		</Form>
+		{% endif %}
+		<br>
+		{% for step in toSort %}
+		<p6>
+		{{ step }}
+		<br>
+		{% endfor %}
+		</p6>
+	</body>
+</html>

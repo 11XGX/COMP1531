@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+    <style>
+    html {text-align:center; background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:55px;
+        width:20%;
+        color:white;
+        cursor:pointer;
+    }
+
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+	<hr />
+    <head>
+    <title>Survey Results</title>
+    </head>
+    <body>
+        <h1> Survey Results </h1>
+        {% if "surveyresult" in is_authenticated.keys() %}
+            {% if "unlimited" in is_authenticated["surveyresult"] 
+                or (survey != 0 and survey.getPhase() | int  in is_authenticated["surveyresult"]) %}
+            {% if questions != 0 and hasResponses == 1 %}
+                <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                {% for i in range (0, charts|length) %}
+                    {{ questions[i].getQuestion() }} <br>
+                    {{charts[i] | safe}}
+                {% endfor %}
+            {% else %}
+                <p> No Responses Recorded </p>
+            {% endif %}
+        {% else %}
+            Invalid Key or Not Currently Viewable
+        {% endif %}
+        {% else %}
+            Request Denied
+        {% endif %}
+
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <hr />
+    </body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+    <style>
+	html {text-align:center; background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:35px;
+        width:10%;
+        color:white;
+        cursor:pointer;
+    }
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+	<hr />
+    <head>
+    <title>Fill in Survey</title>
+    </head>
+    <body>
+        <h1>Fill in Survey</h1>
+        {% if "doform" in is_authenticated.keys() %}
+        {% if currentSurvey != 0 and currentSurvey.getActive() == 1 and responseRegistered == False and participate == True 
+            or ("unlimited" in is_authenticated["doform"] and currentSurvey != 0 and currentSurvey.getActive() == 1) %}
+
+        <h3> {{ currentSurvey.getName() }} </h3>
+        <h5> {{ currentSurvey.getDesc() }} </h5><br>
+        
+        {% block content %} {% endblock %}
+
+        {% elif currentSurvey != 0 and currentSurvey.getActive() == 1 and participate == True %}
+            Response Already Registered
+        {% else %}
+            Survey Not Active or Invalid Survey Key
+        {% endif %}
+
+        {% else %}
+            <p1> Request Denied </p1>
+        {% endif %}   
+
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </body>
+    <hr/>
+</html>

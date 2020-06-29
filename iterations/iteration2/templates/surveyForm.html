@@ -1,0 +1,24 @@
+{% extends "survey.html" %}
+{% block content %}
+    <! HTML Format for the 'fill in form' of each questionType should be written below !>
+
+    {% for i in range (0, questions|length) %}
+        <label> {{ questions[i].getQuestion() }} </label> {% if questions[i].getCompulsory() | int == 1 %} * {% endif %} <br>
+        <Form method="POST">
+
+        <! The below is OPEN FOR EXTENSION. New Question Types should have their forms specified below !>
+        {% if questions[i].getType() == "TextQuestion" %}
+            <input name="{{ i }}" placeholder="Enter Answer"/><br/><br/>
+        {% elif questions[i].getType() == "MCQ" %}
+            {% for j in range (0, questions[i].getNumResponses()) %}
+                    <input type="radio" name="{{ i }}" value="{{ questions[i].getResponses()[j] }}" > {{ questions[i].getResponses()[j] }} <br>
+            {% endfor %}
+        {% endif %}
+        <br>
+        {% endfor %}
+
+        <! Submit button is for the entire survey form and nothing below here needs to be changed !>
+        <button id="button" type="submit" name="bt" value="submit_response"> Submit Survey </button><br>
+        </Form>
+
+{% endblock %}

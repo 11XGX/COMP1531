@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+    <style>
+   html {background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:35px;
+        width:10%;
+        color:white;
+        cursor:pointer;
+    }
+
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+	<hr />
+    <head>
+    <title>Hello Page</title>
+    </head>
+    <Form method="POST">
+        <button id="button" style="float: left;" type="submit" name="bt" value="back">Back</button>
+    </Form>
+    <p align="right">
+        Username: {{ user.username }}  <br />  
+        Role: {{user.role}}            <br />    
+    </p> 
+<center>
+    <body>
+        <h1> Enrolment Manager </h1>
+                <Form method="POST">
+        {% if "enrolment" in user.getPermissions().keys() %}
+            <button id="button" type="submit" name="bt" value="enroltocourse"> Enrol User To Course </button><br>
+            <button id="button" type="submit" name="bt" value="manageguests"> Manage Guests </button><br>
+        {% else %}
+            <p1> Request Denied </p1>
+               <button id="button" type="submit" name="bt" value="login"> Login </button><br>
+        {% endif %}
+                </Form>
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <hr />
+
+</center>
+    </body>
+</html>

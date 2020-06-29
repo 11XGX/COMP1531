@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+	<style>
+	html {text-align:center; background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:35px;
+        width:10%;
+        color:white;
+        cursor:pointer;
+    }
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+	<hr />
+    <head>
+    <title>Modify a Survey</title>
+    </head>
+    <body>
+    <Form method="POST">
+        <button id="button" style="float:left;" type="submit" name="bt" value="back">Back</button><br/>
+    </Form>
+        <h1>Modify a Survey</h1>
+        {% if "modifysurvey" in is_authenticated.keys() and currentSurvey != 0 and currentSurvey.getPhase() | int in is_authenticated["modifysurvey"] %}
+        {% if qp|length %}
+        {% if currentSurvey != 0 %}
+            <p3> {{ currentSurvey.getName() }} </p3><br><br>
+            <Form method="POST">
+            Older questions - can't be changed - only deleted<br>
+            {% for i in range(0, currentQuestions|length) %}
+                <select name="{{ j }}" style="width:300px">
+                <option selected="selected" value="{{ currentQuestions[i].getID() }}"> {{ currentQuestions[i].getQuestion() }} </option> 
+                </select>
+                {{ currentQuestions[i].getCompulsory() }}
+                {% if currentQuestions[i].getAdminAdded() | int == 0 or "undeletablequestions" in is_authenticated["modifysurvey"] %}
+                {% if currentQuestions[i].getCompulsory() | int and "deletecompulsory" in is_authenticated["modifysurvey"] 
+                   or not currentQuestions[i].getCompulsory() | int and "deleteoptional" in is_authenticated["modifysurvey"] %}
+                <button id="button" type="submit" name="bt" value="d1{{i}}"> Delete </button><br>
+                {% endif %}
+                {% endif %}
+                <br><br>
+            {% endfor %}
+
+            Newer Questions (being added) below<br>
+            {% for i in range(0, numQues) %}
+                <select name="{{ i }}" style="width:300px">
+                    {% for j in range (0, qp|length) %}
+                        {% if qp[j].getID() == restore[i] %}
+                            <option selected="selected" value="{{ qp[j].getID() }}"> {{ qp[j].getQuestion() }} </option>
+                        {% else %}
+                            <option value="{{ qp[j].getID() }}"> {{ qp[j].getQuestion() }} </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <button id="button" type="submit" name="bt" value="d2{{i}}"> Delete </button><br>
+                <br><br>
+            {% endfor %}
+            <br>
+            <button id="button" type="submit" name="bt" value="add_question"> Add Question </button><br>
+            <button id="button" type="submit" name="bt" value="submit_survey"> Save Survey </button><br>
+            </Form>
+        {% else %}
+            Not a valid survey key
+        {% endif %}
+        {% else %}
+            No questions to add. Create questions first.
+        {% endif %}
+        <br><Form method="POST">
+                <button id="button" type="submit" name="bt" value="create_questions"> Create Questions </button><br>
+        </Form>
+        {% else %}
+            <p1> Request Denied Or Invalid Key </p1>
+        {% endif %}
+
+    <! Below is the display functionality of flash messages !>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+        {% for message in messages %}
+            <p>{{ message }}</p><br>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+    </body>
+    <hr />
+</html>

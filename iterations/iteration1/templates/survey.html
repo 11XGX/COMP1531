@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+    <title>Fill in Survey</title>
+    </head>
+    <body>
+        <center>
+        <h1>Fill in Survey</h1>
+        {% if valid and currentSurvey.getActive() == 1 %}
+        <h3> {{ currentSurvey.getCourse() }} - {{ currentSurvey.getName() }} </h3>
+        <h5> {{ currentSurvey.getDesc() }} </h5><br>
+        {% for i in range (0, currentSurvey.getNumQuestions()) %}
+            <label> {{ questions[currentSurvey.getQuestions()[i]|int].getQuestion() }} </label><br>
+            <Form method="POST">
+            {% for j in range (0, questions[currentSurvey.getQuestions()[i]|int].getNumResponses()) %}
+                <input type="radio" name="{{ i }}" checked="checked" value="{{ j }}" > {{ questions[currentSurvey.getQuestions()[i]|int].getResponses()[j] }} <br>
+            {% endfor %}
+            <br>
+        {% endfor %}
+        <button type="submit" name="bt" value="submit_response"> Submit Survey </button><br>
+        </Form>
+        {% else %}
+        Survey Not Active or Invalid Survey Key
+        {% endif %}
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        </center>
+    </body>
+</html>

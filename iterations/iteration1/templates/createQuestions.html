@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+   <head>
+   <title>Create New Questions</title>
+   </head>
+   <body>
+   <Form method="POST">
+      <button type="submit" name="bt" value="back">Back</button>
+   </Form>
+      <center>
+      <h1>Create New Questions</h1>
+      {% if is_authenticated %}
+      <Form method="POST">
+            <input name="question" placeholder="Enter a Question" value = "{{ restore[0] }}"/><br>
+            {% for i in range(0, num) %}
+                <input name="{{ i }}" placeholder="Add Response" value = "{{ restore[i+1] }}"/><br>
+            {% endfor %}
+            <button type="submit" name="bt" value = "add_response">Add Response</button><br>
+            <button type="submit" name="bt" value = "submit_question">Create</button><br>
+      </Form>
+      {% else %}
+      <p1> Request Denied </p1>
+      {% endif %}
+
+      <! Below is the display functionality of flash messages !>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+                <p>{{ message }}</p><br>
+            {% endfor %}
+            </ul>
+        {% endif %}
+      {% endwith %}
+
+      </centre>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+
+{% extends "createQuestions.html" %}
+{% block content %} 
+    <! HTML Format for the 'create question form' of each questionType should be written below !>
+
+    <Form method="POST">
+            <! For each type of question, draw a button so that the user can select that type of question !>
+            {% for question in question.getAllQuestionTypes() %}
+                <button id="button" type="submit" name="questionType" value = "{{ question }}">{{question}}</button>
+            {% endfor %}
+            <br><br>
+
+            <! All questions will have these inputs !>
+            <input name="question" placeholder="Enter a Question" value = "{{ restore[0] }}"/>
+            {{ restoreOptional }}
+            {% if restoreOptional | int == 0 %}
+                <input type="checkbox" name="optional" value="1" > Optional <br><br/><br/>
+            {% else %}
+                <input type="checkbox" name="optional" checked="checked" value="1" > Optional <br><br/><br/>
+            {% endif %}
+
+            <! The below is OPEN FOR EXTENSION. New Question Types should have there forms specified below !>
+            {% if questionType == "MCQ" %}
+                {% for i in range(0, num) %}
+                    <input name="{{ i }}" placeholder="Add Response" value = "{{ restore[i+1] }}"/><br/><br/>
+                {% endfor %}
+                <button id="button" type="submit" name="bt" value = "add_response">Add Response</button><br/>
+            {% endif %}
+            <button id="button" type="submit" name="bt" value = "submit_question">Create</button><br/><br/>
+      </Form>
+
+{% endblock %}

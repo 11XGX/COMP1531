@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+    <title>View all Surveys</title>
+    </head>
+    <body>
+    <Form method="POST">
+        <button type="submit" name="bt" value="back">Back</button>
+    </Form>
+        <center>
+        <h1>View all Surveys</h1>
+        {% if is_authenticated %}
+        <Form method="POST">
+        {% for i in range(0, allSurvey|length) %}
+            <label> {{ allSurvey[i].getCourse() }} {{ allSurvey[i].getName() }} </label><br>
+                 <button type="submit" name="bt" value="{{2*i}}"> Edit Survey </button>
+                 <button type="submit" name="bt" value="{{2*i + 1}}"> {% if allSurvey[i].getActive() == 1 %} Make Inactive {% else %} Make Active {% endif %} </button>
+                 <label> Link: <a href = "survey/{{ allSurvey[i].getKey()}}">http://localhost:5000/survey/{{ allSurvey[i].getKey()}}</a> </label> <br>
+        {% endfor %}
+        </Form>
+        {% else %}
+            <p1> Request Denied </p1>
+        {% endif %}
+
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        </center>
+    </body>
+</html>

@@ -1,0 +1,18 @@
+<!doctype.html>
+<html>
+	<head>
+	<title>Index page </title>
+	</head>
+	<body>
+		<h1> Calculator! </h1>
+		<label> {{ userInput }} </label>
+		<Form method="POST">
+		{% for i in range(0, buttons | length) %}
+		    {% for j in range(0, buttons[i] | length) %}
+		        <button style="height:70px; width:70px" type="SUBMIT" name="bt" value="{{ buttons[i][j] }}"> {{ buttons[i][j] }} </button>
+	        {% endfor %}
+		<br>
+	    {% endfor %}
+		</Form>
+	</body>
+</html>

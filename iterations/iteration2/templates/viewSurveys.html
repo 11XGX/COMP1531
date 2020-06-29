@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+	<style>
+	html {text-align:center; background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:35px;
+        width:10%;
+        color:white;
+        cursor:pointer;
+    }
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+	<hr />
+    <head>
+    <title>View Available Surveys</title>
+    </head>
+    <body>
+    <Form method="POST">
+        <button id="button" style="float: left;" type="submit" name="bt" value="back">Back</button><br/>
+    </Form>
+        <h1>View Available Surveys</h1>
+        {% if "viewsurveys" in is_authenticated.keys() %}
+        <Form method="POST">
+        {% for i in range (0, sessions|length) %}
+            {% if ("phase1" not in is_authenticated["viewsurveys"] or sessions[i].getSurvey() != 0)
+                and "createsurvey" not in is_authenticated["dashboard"] %}
+                <label> {{ sessions[i].getName() }} {{ sessions[i].getSession() }} </label><br>
+            {% endif %}
+
+            {% if sessions[i].getSurvey() != 0 %}
+                <label> {{ sessions[i].getSurvey().getName() }} </label><br>
+            {% if sessions[i].getSurvey().getPhase() | int == 0 and "phase1" not in is_authenticated["viewsurveys"] and "phase2" in is_authenticated["viewsurveys"] %}
+                <! staff has some surveys currently in admin/create phase !>
+                Survey Not Yet Open For Review <br>
+            {% else %}
+                <! display the survey information with appropriate buttons based on user permissions !>
+                {% if "editsurvey" in is_authenticated["viewsurveys"] 
+                    and (sessions[i].getSurvey().getPhase() | int in is_authenticated["modifysurvey"]) %}
+                    <! survey can only be editted in phase0 (admin) or phase1 (review) phases !>
+                    <button id="button" type="submit" name="bt" value="m {{i}} {{j}}"> Edit Survey </button>
+                {% endif %}
+
+                {% if "active" in is_authenticated["viewsurveys"] %}
+                    <! for forced debugging only !>
+                    <!--
+                    <button id="button" type="submit" name="bt" value="a {{i}} {{j}}"> {% if sessions[i].getSurvey().getActive() == 1 %} Make Inactive {% 
+                                                                                        else %} Make Active {% endif %} </button>
+                    -->
+                {% endif %}
+
+                {% if (sessions[i].getSurvey().getPhase() | int) + 1 in is_authenticated["viewsurveys"] %}
+                    <button id="button" type="submit" name="bt" value="p {{i}} {{j}}"> {% if sessions[i].getSurvey().getPhase() | int == 0 %} Phase: Open Review {% elif 
+                                                                                        sessions[i].getSurvey().getPhase() | int  == 1 %} Phase: Open Survey {% elif 
+                                                                                        sessions[i].getSurvey().getPhase() | int == 2 %} Phase: Close Survey {% endif %} </button>
+                {% endif %}  
+          
+                {% if "delete" in is_authenticated["viewsurveys"] %}
+                    <button id="button" type="submit" name="bt" value="d {{i}} {{j}}"> Delete </button>
+                {% endif %}
+
+                {% if "doform" in is_authenticated["viewsurveys"] and sessions[i].getSurvey().getActive() %}
+                    {% if "unlimited" in is_authenticated["doform"] or responseRegistered[i] != True %}
+                        <label> Link: <a href = "survey/{{ sessions[i].getSurvey().getKey()}}">http://localhost:5000/survey/{{ sessions[i].getSurvey().getKey()}}</a></label><br>
+                    {% else %}
+                        Thanks! Responses Will Be Available Soon. <br>
+                    {% endif %}
+                {% endif %}
+
+                {% if "surveyresult" in is_authenticated["viewsurveys"] 
+                    and (sessions[i].getSurvey().getPhase() | int in is_authenticated["surveyresult"] or "unlimited" in is_authenticated["surveyresult"]) %}
+                        <label> Results: <a href = "surveyResult/{{ sessions[i].getSurvey().getKey()}}">http://localhost:5000/surveyResult/{{ sessions[i].getSurvey().getKey()}}</a></label><br>
+                {% endif %}
+
+            {% endif %}
+            {% endif %}
+            <br>
+        {% endfor %}
+        </Form>
+        {% else %}
+            <p1> Request Denied </p1>
+        {% endif %}
+
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </body>
+    <hr />
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+	<style>
+	html {text-align:center; background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:35px;
+        width:10%;
+        color:white;
+        cursor:pointer;
+    }
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+	<hr />
+    <head>
+    <title>View Question Pool</title>
+    </head>
+    <Form method="POST">
+        <button id="button" style="float: left;" type="submit" name="bt" value="back">Back</button>
+    </Form>
+    <p align="right">
+        Username: {{ user.username }}  <br />  
+        Role: {{user.role}}            <br />    
+    </p> 
+    <body>
+        <h1>View Question Pool</h1>
+        {% if "viewquestions" in is_authenticated.keys() %}
+        <Form method="POST">
+        {% for question in questions %}
+            {{ question.question }}{% if question.compulsory | int %}* {% endif %} {{ question.type }}  
+            <button id="button" type="submit" name="bt" value="d{{ question.id }}">Delete</button><br/>
+            <br>
+        {% endfor %}
+        </Form>
+        {% else %}
+            <p1> Request Denied </p1>
+        {% endif %}
+
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </body>
+    <hr />
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+    <style>
+    html {background-color:#DCDCDC}
+	body {background-color:#F5F5F5; font-family:arial}
+	#button {
+        border: 1px outset darkgray;
+        background-color: gray;
+        height:55px;
+        width:20%;
+        color:white;
+        cursor:pointer;
+    }
+
+    #button:hover {
+       background-color: darkgray;
+       color:white;
+    }
+	</style>
+	<hr />
+    <head>
+    <title>Hello Page</title>
+    </head>
+
+    <p align="right">
+        Username: {{ user.username }}  <br />  
+        Role: {{user.role}}            <br />    
+    </p>    
+ 
+
+<center>
+    <body>
+        <h1> Menu </h1>
+                <Form method="POST">
+        {% if "dashboard" in is_authenticated.keys() %}
+            {% if "createsurvey" in is_authenticated["dashboard"] %}
+               <button id="button" type="submit" name="bt" value="create_surveys"> Create Surveys </button>{% if user.role != "admin" %}<br> {% endif %}
+            {% endif %}
+            {% if "createquestions" in is_authenticated["dashboard"] %}
+               <button id="button" type="submit" name="bt" value="create_questions"> Create Questions </button><br>
+            {% endif %}
+            {% if "viewsurveys" in is_authenticated["dashboard"] %} 
+               <button id="button" type="submit" name="bt" value="view_surveys"> View Surveys </button>{% if user.role != "admin" %}<br> {% endif %}
+            {% endif %}
+            {% if "viewquestions" in is_authenticated["dashboard"] %}
+               <button id="button" type="submit" name="bt" value="view_questions"> View Questions </button><br>
+            {% endif %}
+            {% if "enrolment" in is_authenticated["dashboard"] %}
+               <button id="button" type="submit" name="bt" value="enrolment_manager"> Enrolment Manager </button>{% if user.role != "admin" %}<br> {% endif %}
+            {% endif %}
+               <button id="button" type="submit" name="bt" value="logout"> Logout </button><br>
+        {% else %}
+            <p1> Request Denied </p1>
+               <button id="button" type="submit" name="bt" value="login"> Login </button><br>
+        {% endif %}
+                </Form>
+        <! Below is the display functionality of flash messages !>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <hr />
+
+</center>
+    </body>
+</html>
